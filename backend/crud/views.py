@@ -11,7 +11,7 @@ from .serializers import BlogSerializer
 def blog_list(request):
 
     if request.method == 'GET':
-        blogs = Blog.objects.all()
+        blogs = Blog.objects.all().order_by('-created_at')
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
     
