@@ -4,7 +4,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .serializer import RegistrationSerializer
+
 
 
 
@@ -46,7 +49,7 @@ class CookiesTokenObtainPairSerializer(TokenObtainPairView):
 
         except:
 
-            res.data = {'success': False}
+            return Response({"success": False})
         
 
 class CookiesTokenRefreshView(TokenRefreshView):
@@ -79,6 +82,14 @@ class CookiesTokenRefreshView(TokenRefreshView):
         except:
             res.data = {'success': False}
 
+@api_view(['POST'])
+def register(request):
+    serializer = RegistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.error)
+
 
 @api_view(['POST'])
 def logout(request):
@@ -92,4 +103,10 @@ def logout(request):
     except:
         return Response({"success": False}) 
 
-    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def is_authenticated(request):
+    return Response({'authenticated': True})
+
+
