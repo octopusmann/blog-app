@@ -28,7 +28,7 @@ def blog_list(request):
             return Response(status=201)
         return Response(serializer.errors,status=404)
     
-
+@api_view(['GET','PUT','PATCH', 'DELETE'])
 def blog_detail(request, pk):
 
     try:
@@ -49,7 +49,7 @@ def blog_detail(request, pk):
   
     
     elif request.method == 'PUT':
-        permission_check = check_owner_permission()
+        permission_check = check_owner_permission(request, blog)
         if permission_check:
             return permission_check
         
