@@ -1,14 +1,9 @@
-// import { ReactComponent as LightHamburgerIcon } from "../images/lightHamburgerIcon.svg";
-// import { ReactComponent as LightDarkModeIcon } from "../images/lightDarkModeIcon.svg";
-import { ReactComponent as LightHamburgerIcon } from "../images/lightHamburgerIcon.svg";
-import { ReactComponent as DarkHamburgerIcon } from "../images/darkHamburgerIcon.svg";
-import { ReactComponent as LightMoonIcon } from "../images/lightMoonIcon.svg";
-import { ReactComponent as DarkMoonIcon } from "../images/darkMoonIcon.svg";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { fetchBlogs } from "../endpoints/api";
 import { useEffect } from "react";
 import { formatDate } from "../utils/formatDate";
+import Navbar from "../components/navbar";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const [isIconOpen, setIsIconOpen] = useState(false);
@@ -25,7 +20,7 @@ export const Home = () => {
     call();
 
     console.log(blogs);
-  }, [blogs]);
+  }, []);
 
   useEffect(() => {
     const savedMode = localStorage.getItem("theme");
@@ -52,49 +47,21 @@ export const Home = () => {
 
   return (
     <div className="dark:bg-black dark:text-black">
-      <nav className="flex justify-between px-4 py-4  mb-6">
-        <h1 className="text-lg font-serif dark:text-white  ">Blogs` Dump</h1>
-        <div className=" relative flex gap-4 ">
-          {" "}
-          {isDark ? (
-            <LightHamburgerIcon
-              onClick={() => setIsIconOpen((current) => !current)}
-              className="w-6 h-6  "
-            />
-          ) : (
-            <DarkHamburgerIcon
-              onClick={() => setIsIconOpen((current) => !current)}
-              className="w-6 h-6  "
-            />
-          )}
-          {isIconOpen && (
-            <div className=" absolute flex flex-col right-0 top-10 bg-white px-12 py-16 border gap-4  ">
-              <Link to="/about">About</Link>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-              <Link to="/logout">Log out</Link>
-            </div>
-          )}
-          {isDark ? (
-            <DarkMoonIcon
-              className="w-6 h-6 pr-2"
-              onClick={() => setIsDark((current) => !current)}
-            />
-          ) : (
-            <LightMoonIcon
-              className="w-6 h-6 pr-2"
-              onClick={() => setIsDark((current) => !current)}
-            />
-          )}
-        </div>
-      </nav>
+      <Navbar
+        isDark={isDark}
+        setIsDark={setIsDark}
+        isIconOpen={isIconOpen}
+        setIsIconOpen={setIsIconOpen}
+      />
 
       <div>
         {latestBlog && (
           <div className=" flex  flex-col px-6 ">
-            <h2 className="text-2xl dark:text-white  font-serif ">
-              {blogs[0]?.title}
-            </h2>
+            <Link to={`/blogs/${latestBlog.id}`}>
+              <h2 className="text-2xl dark:text-white  font-serif ">
+                {latestBlog?.title}
+              </h2>
+            </Link>
             <p className="line-clamp-5 text-gray-700 dark:text-gray-400 text-md font-serif my-6">
               {latestBlog?.content}
             </p>
@@ -112,9 +79,11 @@ export const Home = () => {
               <h6 className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-2">
                 {formatDate(blog.created_at)}
               </h6>
-              <h3 className="text-base font-serif dark:text-white ">
-                {blog.title}
-              </h3>
+              <Link to={`/blogs/${blog.id}`}>
+                <h3 className="text-base font-serif dark:text-white ">
+                  {blog.title}
+                </h3>
+              </Link>
             </div>
           ))}
         </div>
