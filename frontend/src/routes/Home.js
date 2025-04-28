@@ -2,15 +2,11 @@ import { useState } from "react";
 import { fetchBlogs } from "../endpoints/api";
 import { useEffect } from "react";
 import { formatDate } from "../utils/formatDate";
-import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 
 export const Home = () => {
-  const [isIconOpen, setIsIconOpen] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [visible, setVisible] = useState(4);
-  const [isDark, setIsDark] = useState(false);
-
   useEffect(() => {
     const call = async () => {
       const data = await fetchBlogs();
@@ -22,41 +18,14 @@ export const Home = () => {
     console.log(blogs);
   }, []);
 
-  useEffect(() => {
-    const savedMode = localStorage.getItem("theme");
-    const preferMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    if (savedMode || (!savedMode && preferMode)) {
-      setIsDark(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
-
   const latestBlog = blogs[0];
   const blogList = blogs.slice(1, visible);
 
   return (
-    <div className="dark:bg-black dark:text-black">
-      <Navbar
-        isDark={isDark}
-        setIsDark={setIsDark}
-        isIconOpen={isIconOpen}
-        setIsIconOpen={setIsIconOpen}
-      />
-
+    <div className="dark:bg-black dark:text-black pt-6">
       <div>
         {latestBlog && (
-          <div className=" flex  flex-col px-6 ">
+          <div className=" flex  flex-col px-8 ">
             <Link to={`/blogs/${latestBlog.id}`}>
               <h2 className="text-2xl dark:text-white  font-serif ">
                 {latestBlog?.title}
@@ -91,7 +60,7 @@ export const Home = () => {
           {visible < blogs.length && (
             <button
               onClick={() => setVisible((prev) => prev + 3)}
-              className="w-[58%]  border-2 border-gray-400 bg-cyan-300 hover:bg-cyan-500 py-2 font-serif"
+              className="w-[58%] border-2 border-gray-400 bg-cyan-300 hover:bg-cyan-500 py-2 font-serif"
             >
               View More
             </button>

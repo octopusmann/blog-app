@@ -23,10 +23,16 @@ export default function BlogDetailPage() {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1 className="mb-10">{blog.title}</h1>
-      <img src={`http://localhost:8000${blog?.cover_image}`} alt="cover" />
-      <p>{blog.content}</p>
+    <div className=" dark:bg-black  dark:text-white flex flex-col px-6 py-20">
+      <h1 className="text-3xl font-serif mb-10">{blog.title}</h1>
+      <img
+        className="rounded-md  "
+        src={`http://localhost:8000${blog?.cover_image}`}
+        alt="cover"
+      />
+      <p className="mt-8 whitespace-pre-line dark:text-gray-300">
+        {blog.content}
+      </p>
     </div>
   );
 }

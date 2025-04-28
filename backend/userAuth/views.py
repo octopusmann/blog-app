@@ -4,20 +4,22 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from .serializer import RegistrationSerializer
 
 
 
 
-class CookiesTokenObtainPairSerializer(TokenObtainPairView):
+class CookiesTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
 
         try:
             response = super().post(request, *args, **kwargs)
             tokens = response.data
+            print(response.data)
 
             access_token = tokens['access']
             refresh_token = tokens['refresh']
@@ -29,24 +31,23 @@ class CookiesTokenObtainPairSerializer(TokenObtainPairView):
             res.set_cookie(
                 key="access_token",
                 value= access_token,
-                httponly=True,
-                samesite=None,
+                samesite= 'None',
                 secure=True,
-                path = '/' # I should modify this path later !!!
-    
+                path = '/', # I should modify this path later !!!
+                max_age= 3600
             )
             res.set_cookie(
                 key= "refresh_token",
                 value= refresh_token,
-                httponly= True,
-                samesite= None,
+                samesite= 'None',
                 secure= True,
-                path = '/'
+                path = '/',
+                max_age= 5*3600
+
   
             )
-
             return res
-
+            
         except:
 
             return Response({"success": False})
@@ -70,10 +71,12 @@ class CookiesTokenRefreshView(TokenRefreshView):
             res.set_cookie(
                 key= 'access_token',
                 value= access_token,
-                httponly=True,
-                samesite=None,
+                # httponly=True,
+                samesite= 'None',
                 secure=True,
-                path = '/'
+                path = '/',
+                max_age= 3600
+
             )
 
             return res
