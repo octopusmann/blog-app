@@ -9,6 +9,7 @@ import PrivateRoute from "./components/privateRoute";
 import { ThemeProvider } from "./contexts/ThemeMode";
 import Navbar from "./components/navbar";
 import { NavbarProvider } from "./contexts/NavbarContext";
+import { ErrorPage } from "./routes/errorPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+                <Route path="/about" element={<ErrorPage />}></Route>
               </Routes>
             </NavbarProvider>
           </AuthProvider>

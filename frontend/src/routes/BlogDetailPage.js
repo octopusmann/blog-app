@@ -23,16 +23,26 @@ export default function BlogDetailPage() {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className=" dark:bg-black  dark:text-white flex flex-col px-6 py-20">
-      <h1 className="text-3xl font-serif mb-10">{blog.title}</h1>
-      <img
-        className="rounded-md  "
-        src={`http://localhost:8000${blog?.cover_image}`}
-        alt="cover"
-      />
-      <p className="mt-8 whitespace-pre-line dark:text-gray-300">
-        {blog.content}
-      </p>
+    <div className="w-full  overflow-x-hidden">
+      <div className=" dark:bg-black  dark:text-white flex flex-col sm:items-center sm:justify-center  px-4 sm:px-6 lg:px-12 py-20">
+        <div className="w-full max-w-3xl">
+          <h1 className="text-3xl sm:text-start font-serif mb-10">
+            {blog.title}
+          </h1>
+          <div className="w-full mb-8">
+            <img
+              className="w-full object-cover rounded-2xl "
+              src={`http://localhost:8000${blog?.cover_image}`}
+              alt="cover"
+            />
+          </div>
+        </div>
+        <div className="w-full max-w-3xl ">
+          <p className="mt-8 whitespace-pre-line dark:text-gray-300">
+            {blog.content}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

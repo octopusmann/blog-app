@@ -12,10 +12,10 @@ export default function Register() {
     login(username, password);
   };
   return (
-    <div className=" flex items-center justify-center min-h-screen dark:bg-black  dark:text-white">
+    <div className=" flex items-center justify-center min-h-screen sm:pb-60 dark:bg-black  text-white">
       <div className=" bg-gray-800 w-full max-w-sm md:max-w-md lg:max-w-lg mx-6 py-8  rounded-lg gap-y-2">
         {" "}
-        <h1 className="text-black dark:text-white text-start pb-6 pl-[10%]  text-xl font-bold">
+        <h1 className=" text-white text-start pb-6 pl-[10%]  text-xl font-bold">
           {" "}
           Sign Up
         </h1>
