@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { login } from "../endpoints/api";
+import { register, login } from "../endpoints/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -7,9 +8,28 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(username, password);
+
+    if (password !== rePassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    try {
+      const result = await register(username, password, email);
+      if (result) {
+        console.log("User registered successfully:", result);
+        const success = await login(username, password);
+        if (success) {
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Something went wrong.");
+    }
   };
   return (
     <div className=" flex items-center justify-center min-h-screen sm:pb-60 dark:bg-black  text-white">
@@ -55,7 +75,7 @@ export default function Register() {
             <input
               type="password"
               name="password"
-              value={rePassword}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               c
@@ -70,7 +90,7 @@ export default function Register() {
             <input
               type="password"
               name="password"
-              value={password}
+              value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
               placeholder="Enter password again"
               className=" bg-gray-600 border border-gray-600 rounded-lg px-4 py-3 w-[80%]"
@@ -81,7 +101,7 @@ export default function Register() {
               type="submit"
               className=" bg-blue-600 border-blue-600 border-2 rounded-lg px-32 py-2 w-[80%] mt-8 "
             >
-              Log In
+              Sign Up
             </button>
           </div>
         </form>

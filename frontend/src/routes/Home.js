@@ -22,7 +22,7 @@ export const Home = () => {
   const blogList = blogs.slice(1, visible);
 
   return (
-    <div className="dark:bg-black dark:text-black pt-6 ">
+    <div className="dark:bg-black dark:text-black pt-6 xl:max-w-8xl ">
       <div>
         {latestBlog && (
           <div className=" flex  flex-col   px-8 sm:px-[20%]">

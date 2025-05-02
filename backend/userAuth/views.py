@@ -86,6 +86,7 @@ class CookiesTokenRefreshView(TokenRefreshView):
             res.data = {'success': False}
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register(request):
     serializer = RegistrationSerializer(data=request.data)
     if serializer.is_valid():
@@ -112,4 +113,13 @@ def logout(request):
 def is_authenticated(request):
     return Response({'authenticated': True})
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'username': user.username   
+    })
 

@@ -35,7 +35,7 @@ export default function Navbar() {
       <div className="flex justify-between sm:justify-normal  items-center px-4 pt-4 pb-4 bg-white dark:bg-black">
         <div className="w-full max-w-3xl">
           <h1
-            className="text-lg sm:text-xl font-serif dark:text-white cursor-pointer sm:mx-[20%]"
+            className="text-lg sm:text-xl  whitespace-nowrap  font-serif dark:text-white cursor-pointer sm:mx-[20%]"
             onClick={() => navigate("/")}
           >
             Blogs` Dump
@@ -108,7 +108,7 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          <div className="hidden sm:flex items-center lg:pl-36 gap-6 text-black dark:text-white ">
+          <div className="hidden sm:flex items-center  whitespace-nowrap  lg:pl-36 gap-6 text-black dark:text-white ">
             <Link
               className="px-4 py-2 rounded-md md:rounded-full  text-lg hover:bg-stone-400 dark:hover:bg-blue-500"
               onClick={() => setIsIconOpen(false)}
